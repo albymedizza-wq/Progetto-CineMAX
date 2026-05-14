@@ -1,0 +1,3 @@
+Mario;Rossi;mrossi;1234;cliente
+Anna;Bianchi;abianchi;1234;proiezionista
+Luca;Verdi;lverdi;1234;bigliettaio

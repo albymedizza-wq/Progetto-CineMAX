@@ -13,4 +13,20 @@ public class Cliente extends Utente {
               password,
               "cliente");
     }
+
+    public Cliente(String nome,
+                   String cognome,
+                   String username,
+                   String password,
+                   String dataNascita,
+                   String luogoNascita) {
+
+        super(nome,
+              cognome,
+              username,
+              password,
+              dataNascita,
+              luogoNascita,
+              "cliente");
+    }
 }

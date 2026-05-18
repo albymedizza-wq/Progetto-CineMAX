@@ -1,9 +1,8 @@
 package cinemax.service;
 
+import cinemax.model.Proiezione;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import cinemax.model.Proiezione;
 
 public class ProiezioneService {
 
@@ -21,24 +20,49 @@ public class ProiezioneService {
                 );
     }
 
+    // MOSTRA TUTTE LE PROIEZIONI
+    public void mostraProiezioni() {
+
+        System.out.println(
+                "\n===== PROIEZIONI ====="
+        );
+
+        for (int i = 0;
+             i < listaProiezioni.size();
+             i++) {
+
+            System.out.println(
+                    "\n[" + i + "]"
+            );
+
+            System.out.println(
+                    listaProiezioni.get(i)
+            );
+        }
+    }
+
+    // CERCA FILM
     public void cercaProiezioni(
             Scanner scanner) {
 
         System.out.print(
-                "Inserisci titolo film: ");
+                "Titolo film: "
+        );
 
         String ricerca =
                 scanner.nextLine();
 
         boolean trovato = false;
 
-        for (Proiezione p : listaProiezioni) {
+        for (Proiezione p
+                : listaProiezioni) {
 
             if (p.getFilm()
                     .getTitolo()
                     .toLowerCase()
                     .contains(
-                            ricerca.toLowerCase())) {
+                            ricerca.toLowerCase()
+                    )) {
 
                 System.out.println(p);
 
@@ -49,8 +73,42 @@ public class ProiezioneService {
         if (!trovato) {
 
             System.out.println(
-                    "Nessuna proiezione trovata."
+                    "Nessun film trovato."
             );
         }
+    }
+
+    // SELEZIONA PROIEZIONE
+    public Proiezione selezionaProiezione(
+            Scanner scanner) {
+
+        mostraProiezioni();
+
+        System.out.print(
+                "\nSeleziona proiezione: "
+        );
+
+        int scelta =
+                scanner.nextInt();
+
+        scanner.nextLine();
+
+        if (scelta >= 0 &&
+                scelta < listaProiezioni.size()) {
+
+            return listaProiezioni.get(
+                    scelta
+            );
+        }
+
+        System.out.println(
+                "Scelta non valida."
+        );
+
+        return null;
+    }
+
+    public ArrayList<Proiezione> getListaProiezioni() {
+        return listaProiezioni;
     }
 }

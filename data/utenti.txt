@@ -1,3 +1,7 @@
-Mario;Rossi;mrossi;1234;cliente
-Anna;Bianchi;abianchi;1234;proiezionista
-Luca;Verdi;lverdi;1234;bigliettaio
+Mario;Rossi;mrossi;1234;;;cliente
+Anna;Bianchi;abianchi;1234;;;proiezionista
+Luca;Verdi;lverdi;1234;;;bigliettaio
+Test;Utente;testuser;password123;;;cliente
+Test2;Utente2;testuser2;password456;;;cliente
+Gianni;Bianchi;giannib;pw123;01/01/1990;Milano;cliente
+Alberto;Medizza;Albe29;c6bdb67b8b3f56f4d3b06b503afb6f132cc3dfd9ed6870ef3ac1661c0d2aa9c5;29/06/2006;Varese;cliente

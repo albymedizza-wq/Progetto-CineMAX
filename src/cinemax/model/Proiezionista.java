@@ -13,4 +13,20 @@ public class Proiezionista extends Utente {
               password,
               "proiezionista");
     }
+
+    public Proiezionista(String nome,
+                         String cognome,
+                         String username,
+                         String password,
+                         String dataNascita,
+                         String luogoNascita) {
+
+        super(nome,
+              cognome,
+              username,
+              password,
+              dataNascita,
+              luogoNascita,
+              "proiezionista");
+    }
 }

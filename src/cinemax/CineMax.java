@@ -1,55 +1,225 @@
 package cinemax;
 
-import java.util.Scanner;
-
+import cinemax.model.Proiezione;
+import cinemax.model.Utente;
 import cinemax.service.AuthService;
+import cinemax.service.PrenotazioneService;
 import cinemax.service.ProiezioneService;
+import java.util.Scanner;
 
 public class CineMax {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner =
+                new Scanner(System.in);
 
-        AuthService authService = new AuthService();
-        ProiezioneService proiezioneService =
+        AuthService authService =
+                new AuthService();
+
+        ProiezioneService
+                proiezioneService =
                 new ProiezioneService();
 
+        PrenotazioneService
+                prenotazioneService =
+                new PrenotazioneService(
+                        proiezioneService
+                );
+
+        Utente utenteLoggato = null;
         int scelta;
 
         do {
 
-            System.out.println("\n===== CINEMAX =====");
-            System.out.println("1. Login");
-            System.out.println("2. Registrazione");
-            System.out.println("3. Cerca proiezioni");
-            System.out.println("0. Esci");
+            System.out.println(
+                    "\n===== CINEMAX ====="
+            );
 
-            System.out.print("Scelta: ");
+            System.out.println(
+                    "1. Login"
+            );
 
-            scelta = scanner.nextInt();
+            System.out.println(
+                    "2. Registrazione"
+            );
+
+            System.out.println(
+                    "3. Cerca film"
+            );
+
+            System.out.println(
+                    "4. Mostra proiezioni"
+            );
+
+            System.out.println(
+                    "5. Prenota posti"
+            );
+
+            System.out.println(
+                    "6. Visualizza prenotazioni"
+            );
+
+            System.out.println(
+                    "7. Elimina prenotazione"
+            );
+
+            System.out.println(
+                    "8. Profilo"
+            );
+
+            System.out.println(
+                    "9. Logout"
+            );
+
+            System.out.println(
+                    "0. Esci"
+            );
+
+            System.out.print(
+                    "Scelta: "
+            );
+
+            scelta =
+                    scanner.nextInt();
+
             scanner.nextLine();
 
             switch (scelta) {
 
                 case 1:
-                    authService.login(scanner);
+                    if (utenteLoggato != null) {
+                        System.out.println(
+                                "Sei già loggato come " +
+                                        utenteLoggato.getUsername()
+                        );
+                    } else {
+                        utenteLoggato = authService.login(
+                                scanner
+                        );
+                    }
                     break;
 
                 case 2:
-                    authService.registraCliente(scanner);
+                    Utente registrato =
+                            authService.registraCliente(
+                                    scanner
+                            );
+                    if (registrato != null) {
+                        utenteLoggato = registrato;
+                    }
                     break;
 
                 case 3:
-                    proiezioneService.cercaProiezioni(scanner);
+                    proiezioneService
+                            .cercaProiezioni(
+                                    scanner
+                            );
+                    break;
+
+                case 4:
+                    proiezioneService
+                            .mostraProiezioni();
+                    break;
+
+                case 5:
+                    if (utenteLoggato == null) {
+                        System.out.println(
+                                "Devi accedere per prenotare."
+                        );
+                        break;
+                    }
+                    Proiezione proiezione =
+                            proiezioneService
+                                    .selezionaProiezione(
+                                            scanner
+                                    );
+                    if (proiezione != null) {
+                        proiezione.mostraSala();
+                        prenotazioneService
+                                .creaPrenotazione(
+                                        scanner,
+                                        utenteLoggato,
+                                        proiezione
+                                );
+                    }
+                    break;
+
+                case 6:
+                    prenotazioneService
+                            .visualizzaPrenotazioni(
+                                    utenteLoggato
+                            );
+                    break;
+
+                case 7:
+                    prenotazioneService
+                            .eliminaPrenotazione(
+                                    scanner,
+                                    utenteLoggato
+                            );
+                    break;
+
+                case 8:
+                    if (utenteLoggato == null) {
+                        System.out.println(
+                                "Devi effettuare il login per vedere il profilo."
+                        );
+                    } else {
+                        System.out.println(
+                                "\n===== PROFILO UTENTE ====="
+                        );
+                        System.out.println(
+                                "Nome: " +
+                                        utenteLoggato.getNome()
+                        );
+                        System.out.println(
+                                "Cognome: " +
+                                        utenteLoggato.getCognome()
+                        );
+                        System.out.println(
+                                "Username: " +
+                                        utenteLoggato.getUsername()
+                        );
+                        System.out.println(
+                                "Ruolo: " +
+                                        utenteLoggato.getRuolo()
+                        );
+                        System.out.println(
+                                "Data di nascita: " +
+                                        utenteLoggato.getDataNascita()
+                        );
+                        System.out.println(
+                                "Luogo di nascita: " +
+                                        utenteLoggato.getLuogoNascita()
+                        );
+                    }
+                    break;
+
+                case 9:
+                    if (utenteLoggato != null) {
+                        System.out.println(
+                                "Logout eseguito per " +
+                                        utenteLoggato.getUsername()
+                        );
+                        utenteLoggato = null;
+                    } else {
+                        System.out.println(
+                                "Nessun utente loggato."
+                        );
+                    }
                     break;
 
                 case 0:
-                    System.out.println("Uscita...");
+                    System.out.println(
+                            "Uscita..."
+                    );
                     break;
 
                 default:
-                    System.out.println("Scelta non valida.");
+                    System.out.println(
+                            "Scelta non valida."
+                    );
             }
 
         } while (scelta != 0);

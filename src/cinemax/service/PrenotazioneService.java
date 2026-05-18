@@ -1,47 +1,247 @@
 package cinemax.service;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
+import cinemax.model.Posto;
 import cinemax.model.Prenotazione;
 import cinemax.model.Proiezione;
+import cinemax.model.Utente;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.UUID;
 
 public class PrenotazioneService {
+    private static final String PRENOTAZIONI_FILE =
+            "data/prenotazioni.txt";
 
-    private ArrayList<Prenotazione>
-            prenotazioni;
+    private final FileManager fileManager =
+            new FileManager();
+    private final ArrayList<Prenotazione> prenotazioni;
 
-    public PrenotazioneService() {
-
+    public PrenotazioneService(
+            ProiezioneService proiezioneService) {
         prenotazioni =
-                new ArrayList<>();
+                fileManager.caricaPrenotazioni(
+                        PRENOTAZIONI_FILE,
+                        proiezioneService
+                                .getListaProiezioni()
+                );
     }
 
     public void creaPrenotazione(
-            String username,
-            Proiezione proiezione,
-            int biglietti) {
+            Scanner scanner,
+            Utente utente,
+            Proiezione proiezione) {
+        if (utente == null) {
+            System.out.println(
+                    "Devi effettuare il login prima di prenotare."
+            );
+            return;
+        }
+
+        if (!"cliente".equalsIgnoreCase(
+                utente.getRuolo())) {
+            System.out.println(
+                    "Solo i clienti possono effettuare prenotazioni."
+            );
+            return;
+        }
+
+        System.out.print(
+                "Quanti posti vuoi prenotare? "
+        );
+
+        int numeroPosti =
+                scanner.nextInt();
+        scanner.nextLine();
+
+        if (numeroPosti <= 0) {
+            System.out.println(
+                    "Inserisci un numero valido di posti."
+            );
+            return;
+        }
 
         String codice =
                 UUID.randomUUID()
                         .toString();
-
         Prenotazione prenotazione =
                 new Prenotazione(
                         codice,
-                        username,
-                        proiezione,
-                        biglietti
+                        utente.getUsername(),
+                        proiezione
                 );
 
+        for (int i = 0;
+             i < numeroPosti;
+             i++) {
+
+            proiezione.mostraSala();
+
+            System.out.println(
+                    "\nPOSTO " + (i + 1)
+            );
+
+            System.out.print(
+                    "Riga (0-9): "
+            );
+
+            int riga =
+                    scanner.nextInt();
+
+            System.out.print(
+                    "Colonna (0-19): "
+            );
+
+            int colonna =
+                    scanner.nextInt();
+
+            scanner.nextLine();
+
+            boolean successo =
+                    proiezione.prenotaPosto(
+                            riga,
+                            colonna
+                    );
+
+            if (successo) {
+                Posto posto =
+                        new Posto(
+                                riga,
+                                colonna
+                        );
+                prenotazione
+                        .aggiungiPosto(
+                                posto
+                        );
+                System.out.println(
+                        "Posto prenotato!"
+                );
+            } else {
+                System.out.println(
+                        "Posto già occupato!"
+                );
+                i--;
+            }
+        }
+
+        double totale =
+                prenotazione
+                        .getPostiPrenotati()
+                        .size() *
+                        proiezione.getCosto();
+        prenotazione.setCostoTotale(totale);
         prenotazioni.add(prenotazione);
 
+        boolean salvato =
+                fileManager.salvaPrenotazione(
+                        PRENOTAZIONI_FILE,
+                        prenotazione
+                );
+
+        if (!salvato) {
+            System.out.println(
+                    "Errore durante il salvataggio della prenotazione."
+            );
+        }
+
         System.out.println(
-                "Prenotazione effettuata."
+                "\nPrenotazione completata!"
         );
 
         System.out.println(
-                "Codice: " + codice
+                "Spesa totale: €" +
+                        String.format("%.2f", totale)
         );
+
+        System.out.println(
+                prenotazione
+        );
+    }
+
+    public void visualizzaPrenotazioni(
+            Utente utente) {
+        if (utente == null) {
+            System.out.println(
+                    "Devi effettuare il login per vedere le tue prenotazioni."
+            );
+            return;
+        }
+
+        boolean trovato = false;
+
+        for (Prenotazione p : prenotazioni) {
+            if (p.getUsernameCliente()
+                    .equals(utente.getUsername())) {
+                System.out.println(p);
+                trovato = true;
+            }
+        }
+
+        if (!trovato) {
+            System.out.println(
+                    "Non hai ancora prenotazioni."
+            );
+        }
+    }
+
+    public void eliminaPrenotazione(
+            Scanner scanner,
+            Utente utente) {
+        if (utente == null) {
+            System.out.println(
+                    "Devi effettuare il login prima di eliminare una prenotazione."
+            );
+            return;
+        }
+
+        System.out.print(
+                "Inserisci codice prenotazione: "
+        );
+
+        String codice =
+                scanner.nextLine();
+
+        Prenotazione daEliminare = null;
+
+        for (Prenotazione p : prenotazioni) {
+            if (p.getCodice().equals(codice) &&
+                    p.getUsernameCliente()
+                            .equals(utente.getUsername())) {
+                daEliminare = p;
+                break;
+            }
+        }
+
+        if (daEliminare != null) {
+            for (Posto posto :
+                    daEliminare
+                            .getPostiPrenotati()) {
+                daEliminare
+                        .getProiezione()
+                        .liberaPosto(
+                                posto.getRiga(),
+                                posto.getColonna()
+                        );
+            }
+            prenotazioni.remove(daEliminare);
+            boolean riscritto =
+                    fileManager.riscriviPrenotazioni(
+                            PRENOTAZIONI_FILE,
+                            prenotazioni
+                    );
+
+            if (riscritto) {
+                System.out.println(
+                        "Prenotazione eliminata."
+                );
+            } else {
+                System.out.println(
+                        "Errore durante l'eliminazione della prenotazione."
+                );
+            }
+        } else {
+            System.out.println(
+                    "Prenotazione non trovata o non appartiene all'utente."
+            );
+        }
     }
 }

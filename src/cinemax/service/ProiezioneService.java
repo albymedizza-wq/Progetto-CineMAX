@@ -84,14 +84,13 @@ public class ProiezioneService {
 
         mostraProiezioni();
 
-        System.out.print(
-                "\nSeleziona proiezione: "
-        );
-
         int scelta =
-                scanner.nextInt();
-
-        scanner.nextLine();
+                leggiIntero(
+                        scanner,
+                        "\nSeleziona proiezione: ",
+                        0,
+                        listaProiezioni.size() - 1
+                );
 
         if (scelta >= 0 &&
                 scelta < listaProiezioni.size()) {
@@ -110,5 +109,31 @@ public class ProiezioneService {
 
     public ArrayList<Proiezione> getListaProiezioni() {
         return listaProiezioni;
+    }
+
+    private int leggiIntero(
+            Scanner scanner,
+            String prompt,
+            int min,
+            int max) {
+
+        while (true) {
+            System.out.print(prompt);
+            String line = scanner.nextLine().trim();
+            try {
+                int value = Integer.parseInt(line);
+                if (value >= min && value <= max) {
+                    return value;
+                }
+                System.out.println(
+                        "Inserisci un numero tra " +
+                                min + " e " + max + "."
+                );
+            } catch (NumberFormatException e) {
+                System.out.println(
+                        "Inserisci un numero valido."
+                );
+            }
+        }
     }
 }

@@ -8,7 +8,6 @@ import cinemax.model.Prenotazione;
 import cinemax.model.Proiezione;
 import cinemax.model.Proiezionista;
 import cinemax.model.Utente;
-import cinemax.utils.PasswordUtils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -202,15 +201,6 @@ public class FileManager {
             String luogoNascita,
             String ruolo) {
 
-        String passwordHash =
-                PasswordUtils.hashPassword(password);
-        if (passwordHash == null) {
-            System.out.println(
-                    "Errore durante la cifratura della password."
-            );
-            return false;
-        }
-
         try {
             File file = new File(nomeFile);
             File parent = file.getParentFile();
@@ -243,7 +233,7 @@ public class FileManager {
                         nome + ";" +
                                 cognome + ";" +
                                 username + ";" +
-                                passwordHash + ";" +
+                                password + ";" +
                                 dataNascita + ";" +
                                 luogoNascita + ";" +
                                 ruolo
@@ -297,8 +287,6 @@ public class FileManager {
             String username,
             String password) {
 
-        String passwordHash =
-                PasswordUtils.hashPassword(password);
         try (BufferedReader reader =
                      new BufferedReader(
                              new FileReader(nomeFile))) {
@@ -314,9 +302,7 @@ public class FileManager {
                                 .equals(username)) {
                     String storedPassword =
                             stripQuotes(dati[3].trim());
-                    if (storedPassword.equals(password) ||
-                            (passwordHash != null &&
-                                    storedPassword.equals(passwordHash))) {
+                    if (storedPassword.equals(password)) {
                         return true;
                     }
                 }

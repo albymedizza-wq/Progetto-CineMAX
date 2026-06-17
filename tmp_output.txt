@@ -1,0 +1,13 @@
+
+===== CINEMAX =====
+1. Login
+2. Registrazione
+3. Cerca film
+4. Mostra proiezioni
+5. Prenota posti
+6. Visualizza prenotazioni
+7. Elimina prenotazione
+8. Profilo
+9. Logout
+0. Esci
+Scelta: 

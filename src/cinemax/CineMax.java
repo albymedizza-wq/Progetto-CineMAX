@@ -76,14 +76,13 @@ public class CineMax {
                     "0. Esci"
             );
 
-            System.out.print(
-                    "Scelta: "
-            );
-
             scelta =
-                    scanner.nextInt();
-
-            scanner.nextLine();
+                    leggiIntero(
+                            scanner,
+                            "Scelta: ",
+                            0,
+                            9
+                    );
 
             switch (scelta) {
 
@@ -225,5 +224,31 @@ public class CineMax {
         } while (scelta != 0);
 
         scanner.close();
+    }
+
+    private static int leggiIntero(
+            Scanner scanner,
+            String prompt,
+            int min,
+            int max) {
+
+        while (true) {
+            System.out.print(prompt);
+            String line = scanner.nextLine().trim();
+            try {
+                int value = Integer.parseInt(line);
+                if (value >= min && value <= max) {
+                    return value;
+                }
+                System.out.println(
+                        "Inserisci un numero tra " +
+                                min + " e " + max + "."
+                );
+            } catch (NumberFormatException e) {
+                System.out.println(
+                        "Inserisci un numero valido."
+                );
+            }
+        }
     }
 }

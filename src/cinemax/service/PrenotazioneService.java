@@ -45,20 +45,13 @@ public class PrenotazioneService {
             return;
         }
 
-        System.out.print(
-                "Quanti posti vuoi prenotare? "
-        );
-
         int numeroPosti =
-                scanner.nextInt();
-        scanner.nextLine();
-
-        if (numeroPosti <= 0) {
-            System.out.println(
-                    "Inserisci un numero valido di posti."
-            );
-            return;
-        }
+                leggiIntero(
+                        scanner,
+                        "Quanti posti vuoi prenotare? ",
+                        1,
+                        200
+                );
 
         String codice =
                 UUID.randomUUID()
@@ -80,21 +73,21 @@ public class PrenotazioneService {
                     "\nPOSTO " + (i + 1)
             );
 
-            System.out.print(
-                    "Riga (0-9): "
-            );
-
             int riga =
-                    scanner.nextInt();
-
-            System.out.print(
-                    "Colonna (0-19): "
-            );
+                    leggiIntero(
+                            scanner,
+                            "Riga (0-9): ",
+                            0,
+                            9
+                    );
 
             int colonna =
-                    scanner.nextInt();
-
-            scanner.nextLine();
+                    leggiIntero(
+                            scanner,
+                            "Colonna (0-19): ",
+                            0,
+                            19
+                    );
 
             boolean successo =
                     proiezione.prenotaPosto(
@@ -148,7 +141,7 @@ public class PrenotazioneService {
         );
 
         System.out.println(
-                "Spesa totale: €" +
+                "Spesa totale: Euro " +
                         String.format("%.2f", totale)
         );
 
@@ -242,6 +235,32 @@ public class PrenotazioneService {
             System.out.println(
                     "Prenotazione non trovata o non appartiene all'utente."
             );
+        }
+    }
+
+    private int leggiIntero(
+            Scanner scanner,
+            String prompt,
+            int min,
+            int max) {
+
+        while (true) {
+            System.out.print(prompt);
+            String line = scanner.nextLine().trim();
+            try {
+                int value = Integer.parseInt(line);
+                if (value >= min && value <= max) {
+                    return value;
+                }
+                System.out.println(
+                        "Inserisci un numero tra " +
+                                min + " e " + max + "."
+                );
+            } catch (NumberFormatException e) {
+                System.out.println(
+                        "Inserisci un numero valido."
+                );
+            }
         }
     }
 }

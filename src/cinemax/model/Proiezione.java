@@ -156,7 +156,7 @@ public class Proiezione {
                "\nOra: " +
                ora +
 
-               "\nCosto: €" +
+               "\nCosto: Euro " +
                costo +
 
                "\nPosti disponibili: " +

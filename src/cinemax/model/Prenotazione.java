@@ -109,10 +109,10 @@ public class Prenotazione {
                "\nPosti: " +
                postiPrenotati +
 
-               "\nCosto unitario: €" +
+               "\nCosto unitario: Euro " +
                String.format("%.2f", proiezione.getCosto()) +
 
-               "\nTotale acquisto: €" +
+               "\nTotale acquisto: Euro " +
                String.format("%.2f", costoTotale) +
 
                "\nData acquisto: " +

@@ -40,8 +40,7 @@ public class FileManager {
                              new FileReader(nomeFile))) {
 
             String riga;
-
-            // Salta intestazione
+            
             reader.readLine();
 
             while ((riga = reader.readLine()) != null) {

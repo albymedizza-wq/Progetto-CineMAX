@@ -6,7 +6,7 @@ echo.
 
 REM Compilazione di tutti i file Java
 echo Compilazione in corso...
-javac -d bin src\cinemax\*.java src\cinemax\model\*.java src\cinemax\service\*.java src\cinemax\utils\*.java
+javac -d bin src/cinemax/*.java src/cinemax/model/*.java src/cinemax/service/*.java
 
 if errorlevel 1 (
     echo Errore durante la compilazione!

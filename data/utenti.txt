@@ -7,4 +7,3 @@ Gianni;Bianchi;giannib;pw123;01/01/1990;Milano;cliente
 Alberto;Medizza;Albe29;c6bdb67b8b3f56f4d3b06b503afb6f132cc3dfd9ed6870ef3ac1661c0d2aa9c5;29/06/2006;Varese;cliente
 Alberto;Rossi;Albe06;abc123;29 06 2006;Varese;cliente
 Alberto;Medizza;Albe2906;abcd1234;29 06 2006;Varese;cliente
-Stella;Magica;Stella21;123stella;17 06 2005;Milano;cliente

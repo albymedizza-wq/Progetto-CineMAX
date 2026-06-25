@@ -1,1 +1,1 @@
-java -jar CineMAX.jar
+java -jar Progetto-CineMAX.jar

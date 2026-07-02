@@ -4,11 +4,37 @@ import cinemax.model.Cliente;
 import cinemax.model.Utente;
 import java.util.Scanner;
 
+/**
+ * Gestisce le operazioni di autenticazione degli utenti.
+ * <p>
+ * La classe permette di effettuare il login e la registrazione
+ * dei clienti, verificando le credenziali e salvando i dati
+ * nei file del sistema.
+ *
+ * @author Davide Gallorini
+ * @author Guidi Lorenzo
+ * @author Alberto Medizza
+ */
 public class AuthService {
 
+        /**
+ * Percorso del file contenente gli utenti registrati.
+ */
     private static final String UTENTI_FILE = "data/utenti.txt";
+
+    /**
+ * Gestisce la lettura e la scrittura dei dati su file.
+ */
     private final FileManager fileManager = new FileManager();
 
+    /**
+ * Effettua il login di un utente verificando le credenziali
+ * inserite.
+ *
+ * @param scanner scanner utilizzato per leggere l'input
+ * @return l'utente autenticato, oppure {@code null} se il login
+ *         non è andato a buon fine
+ */
     public Utente login(Scanner scanner) {
 
         System.out.print("Username: ");
@@ -45,6 +71,16 @@ public class AuthService {
         return null;
     }
 
+    /**
+ * Registra un nuovo cliente nel sistema.
+ * <p>
+ * I dati inseriti vengono salvati nel file degli utenti
+ * e viene creato il relativo oggetto Cliente.
+ *
+ * @param scanner scanner utilizzato per leggere l'input
+ * @return il cliente registrato oppure {@code null}
+ *         se la registrazione non è stata completata
+ */
     public Utente registraCliente(
             Scanner scanner) {
 

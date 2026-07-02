@@ -4,11 +4,27 @@ import cinemax.model.Proiezione;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Gestisce le operazioni relative alle proiezioni.
+ * <p>
+ * Consente di visualizzare le proiezioni disponibili,
+ * effettuare ricerche e selezionare una proiezione.
+ *
+ * @author Davide Gallorini
+ * @author Guidi Lorenzo
+ * @author Alberto Medizza
+ */
 public class ProiezioneService {
 
+/**
+ * Elenco delle proiezioni disponibili.
+ */
     private ArrayList<Proiezione>
             listaProiezioni;
 
+/**
+ * Carica le proiezioni disponibili dal file.
+ */
     public ProiezioneService() {
 
         FileManager fileManager =
@@ -20,6 +36,9 @@ public class ProiezioneService {
                 );
     }
 
+/**
+ * Mostra tutte le proiezioni disponibili.
+ */
     // MOSTRA TUTTE LE PROIEZIONI
     public void mostraProiezioni() {
 
@@ -41,6 +60,11 @@ public class ProiezioneService {
         }
     }
 
+    /**
+ * Cerca una proiezione in base al titolo del film.
+ *
+ * @param scanner scanner utilizzato per leggere l'input
+ */
     // CERCA FILM
     public void cercaProiezioni(
             Scanner scanner) {
@@ -78,6 +102,13 @@ public class ProiezioneService {
         }
     }
 
+    /**
+ * Permette all'utente di selezionare una proiezione.
+ *
+ * @param scanner scanner utilizzato per leggere l'input
+ * @return la proiezione selezionata oppure {@code null}
+ *         se la scelta non è valida
+ */
     // SELEZIONA PROIEZIONE
     public Proiezione selezionaProiezione(
             Scanner scanner) {
@@ -107,10 +138,25 @@ public class ProiezioneService {
         return null;
     }
 
+    /**
+ * Restituisce l'elenco delle proiezioni.
+ *
+ * @return lista delle proiezioni
+ */
     public ArrayList<Proiezione> getListaProiezioni() {
         return listaProiezioni;
     }
 
+    /**
+ * Legge un numero intero verificando che appartenga
+ * all'intervallo specificato.
+ *
+ * @param scanner scanner utilizzato per leggere l'input
+ * @param prompt messaggio mostrato all'utente
+ * @param min valore minimo consentito
+ * @param max valore massimo consentito
+ * @return numero intero valido
+ */
     private int leggiIntero(
             Scanner scanner,
             String prompt,

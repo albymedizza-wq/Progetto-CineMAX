@@ -7,8 +7,26 @@ import cinemax.service.PrenotazioneService;
 import cinemax.service.ProiezioneService;
 import java.util.Scanner;
 
+/**
+ * Classe principale dell'applicazione CineMAX.
+ * <p>
+ * Contiene il punto di accesso del programma e gestisce
+ * il menu principale dell'applicazione.
+ *
+ * @author Davide Gallorini
+ * @author Guidi Lorenzo
+ * @author Alberto Medizza
+ */
 public class CineMax {
 
+  /**
+ * Avvia l'applicazione CineMAX.
+ * <p>
+ * Inizializza i servizi principali e gestisce il menu
+ * dell'applicazione fino alla chiusura del programma.
+ *
+ * @param args argomenti passati da riga di comando
+ */
     public static void main(String[] args) {
 
         Scanner scanner =
@@ -187,7 +205,7 @@ public class CineMax {
                         System.out.println(
                                 "Data di nascita: " +
                                         utenteLoggato.getDataNascita()
-                        );
+                     );
                         System.out.println(
                                 "Luogo di nascita: " +
                                         utenteLoggato.getLuogoNascita()
@@ -226,6 +244,16 @@ public class CineMax {
         scanner.close();
     }
 
+    /**
+ * Legge un numero intero verificando che appartenga
+ * all'intervallo indicato.
+ *
+ * @param scanner scanner utilizzato per leggere l'input
+ * @param prompt messaggio mostrato all'utente
+ * @param min valore minimo consentito
+ * @param max valore massimo consentito
+ * @return numero intero valido
+ */
     private static int leggiIntero(
             Scanner scanner,
             String prompt,

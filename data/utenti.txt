@@ -4,3 +4,5 @@ Luca;Verdi;lverdi;1234;;;bigliettaio
 Test;Utente;testuser;password123;;;cliente
 Test2;Utente2;testuser2;password456;;;cliente
 Gianni;Bianchi;giannib;pw123;01/01/1990;Milano;cliente
+Davide;Gallorini;Davideg;Davide.06;08/12/2006;Rho;cliente
+Gabriele;Verdi;gabrielegreen;gabriele.verdi;17/06/2000;Milano;cliente

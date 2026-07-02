@@ -22,13 +22,37 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * Gestisce il caricamento e il salvataggio dei dati
+ * utilizzati dall'applicazione.
+ * <p>
+ * La classe si occupa della lettura e della scrittura
+ * di utenti, proiezioni e prenotazioni nei rispettivi file.
+ *
+ * @author Davide Gallorini
+ * @author Guidi Lorenzo
+ * @author Alberto Medizza
+ */
 public class FileManager {
 
+        /**
+ * Formato utilizzato per le date.
+ */
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            /**
+ * Formato utilizzato per data e ora.
+ */
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
+/**
+ * Carica dal file tutte le proiezioni disponibili.
+ *
+ * @param nomeFile percorso del file delle proiezioni
+ * @return lista delle proiezioni caricate
+ */
     public ArrayList<Proiezione>
     caricaProiezioni(String nomeFile) {
 
@@ -127,6 +151,13 @@ public class FileManager {
         return lista;
     }
 
+    /**
+ * Cerca e restituisce un utente in base allo username.
+ *
+ * @param nomeFile percorso del file degli utenti
+ * @param username username dell'utente da cercare
+ * @return utente trovato oppure {@code null}
+ */
     public Utente caricaUtente(
             String nomeFile,
             String username) {
@@ -190,6 +221,20 @@ public class FileManager {
         return null;
     }
 
+    /**
+ * Salva un nuovo utente nel file.
+ *
+ * @param nomeFile percorso del file
+ * @param nome nome dell'utente
+ * @param cognome cognome dell'utente
+ * @param username username dell'utente
+ * @param password password dell'utente
+ * @param dataNascita data di nascita
+ * @param luogoNascita luogo di nascita
+ * @param ruolo ruolo dell'utente
+ * @return {@code true} se il salvataggio è riuscito,
+ *         {@code false} altrimenti
+ */
     public boolean salvaUtente(
             String nomeFile,
             String nome,
@@ -250,6 +295,14 @@ public class FileManager {
         }
     }
 
+    /**
+ * Verifica se uno username è già presente.
+ *
+ * @param nomeFile percorso del file utenti
+ * @param username username da controllare
+ * @return {@code true} se esiste,
+ *         {@code false} altrimenti
+ */
     public boolean esisteUsername(
             String nomeFile,
             String username) {
@@ -281,6 +334,15 @@ public class FileManager {
         return false;
     }
 
+    /**
+ * Verifica che username e password siano corretti.
+ *
+ * @param nomeFile percorso del file utenti
+ * @param username username inserito
+ * @param password password inserita
+ * @return {@code true} se le credenziali sono valide,
+ *         {@code false} altrimenti
+ */
     public boolean verificaCredenziali(
             String nomeFile,
             String username,
@@ -317,6 +379,13 @@ public class FileManager {
         return false;
     }
 
+    /**
+ * Carica tutte le prenotazioni presenti nel file.
+ *
+ * @param nomeFile percorso del file prenotazioni
+ * @param proiezioni elenco delle proiezioni disponibili
+ * @return lista delle prenotazioni caricate
+ */
     public ArrayList<Prenotazione>
     caricaPrenotazioni(
             String nomeFile,
@@ -444,6 +513,14 @@ public class FileManager {
         return prenotazioni;
     }
 
+    /**
+ * Salva una prenotazione nel file.
+ *
+ * @param nomeFile percorso del file prenotazioni
+ * @param prenotazione prenotazione da salvare
+ * @return {@code true} se il salvataggio è riuscito,
+ *         {@code false} altrimenti
+ */
     public boolean salvaPrenotazione(
             String nomeFile,
             Prenotazione prenotazione) {
@@ -509,6 +586,14 @@ public class FileManager {
         }
     }
 
+    /**
+ * Riscrive completamente il file delle prenotazioni.
+ *
+ * @param nomeFile percorso del file prenotazioni
+ * @param prenotazioni elenco delle prenotazioni
+ * @return {@code true} se l'operazione è riuscita,
+ *         {@code false} altrimenti
+ */
     public boolean riscriviPrenotazioni(
             String nomeFile,
             ArrayList<Prenotazione> prenotazioni) {
@@ -559,6 +644,18 @@ public class FileManager {
         }
     }
 
+    /**
+ * Crea un oggetto Utente in base al ruolo specificato.
+ *
+ * @param nome nome dell'utente
+ * @param cognome cognome dell'utente
+ * @param username username dell'utente
+ * @param password password dell'utente
+ * @param dataNascita data di nascita
+ * @param luogoNascita luogo di nascita
+ * @param ruolo ruolo dell'utente
+ * @return istanza dell'utente creata
+ */
     private Utente createUtente(
             String nome,
             String cognome,
@@ -610,6 +707,15 @@ public class FileManager {
         }
     }
 
+    /**
+ * Cerca una proiezione corrispondente ai dati indicati.
+ *
+ * @param proiezioni elenco delle proiezioni
+ * @param titolo titolo del film
+ * @param data data della proiezione
+ * @param ora orario della proiezione
+ * @return proiezione trovata oppure {@code null}
+ */
     private Proiezione trovaProiezione(
             ArrayList<Proiezione> proiezioni,
             String titolo,
@@ -627,6 +733,12 @@ public class FileManager {
         return null;
     }
 
+    /**
+ * Divide una riga CSV nei relativi campi.
+ *
+ * @param line riga da analizzare
+ * @return array contenente i valori estratti
+ */
     private String[] parseCsvLine(String line) {
         ArrayList<String> fields = new ArrayList<>();
         StringBuilder current = new StringBuilder();
@@ -650,6 +762,12 @@ public class FileManager {
         return fields.toArray(new String[0]);
     }
 
+/**
+ * Converte la lista dei posti in una stringa.
+ *
+ * @param posti elenco dei posti prenotati
+ * @return rappresentazione testuale dei posti
+ */
     private String stringifyPosti(
             ArrayList<Posto> posti) {
 
@@ -663,6 +781,12 @@ public class FileManager {
         return sb.toString();
     }
 
+    /**
+ * Rimuove le virgolette iniziali e finali da una stringa.
+ *
+ * @param value stringa da elaborare
+ * @return stringa senza virgolette
+ */
     private String stripQuotes(String value) {
         if (value.startsWith("\"") && value.endsWith("\"")) {
             return value.substring(1, value.length() - 1);

@@ -6,3 +6,4 @@ Test2;Utente2;testuser2;password456;;;cliente
 Gianni;Bianchi;giannib;pw123;01/01/1990;Milano;cliente
 Davide;Gallorini;Davideg;Davide.06;08/12/2006;Rho;cliente
 Gabriele;Verdi;gabrielegreen;gabriele.verdi;17/06/2000;Milano;cliente
+Alberto;Medizza;Albe29;123stella;29/06/2006;Varese;cliente
